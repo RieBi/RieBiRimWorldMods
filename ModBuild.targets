@@ -1,0 +1,19 @@
+<Project>
+    <Target Name="CopyModToRimWorld" AfterTargets="PostBuildEvent">
+        <PropertyGroup>
+            <ModName>$(AssemblyName)</ModName>
+            <RimWorldMods>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods</RimWorldMods>
+        </PropertyGroup>
+
+        <!-- Copy all mod content files -->
+        <ItemGroup>
+            <ModFiles Include="$(ProjectDir)ModContent\**\*.*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(ModFiles)"
+              DestinationFiles="$(RimWorldMods)\$(ModName)\%(ModFiles.RecursiveDir)%(ModFiles.Filename)%(ModFiles.Extension)" />
+
+        <!-- Copy the compiled assembly -->
+        <Copy SourceFiles="$(TargetPath)"
+              DestinationFolder="$(RimWorldMods)\$(ModName)\Assemblies\" />
+    </Target>
+</Project>
